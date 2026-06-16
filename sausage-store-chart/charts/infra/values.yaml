@@ -1,0 +1,37 @@
+global:
+  postgresql:
+    database: sausage-store
+    username: store
+    password: storepassword
+  mongodb:
+    database: sausage-store
+    reportUsername: reports
+    reportPassword: reportspassword
+
+postgresql:
+  image: postgres:13-alpine
+  containerPort: 5432
+  storage: 1Gi
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+mongodb:
+  image: mongo:7.0
+  containerPort: 27017
+  rootUsername: root
+  rootPassword: rootpassword
+  storage: 1Gi
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "50m"
+    limits:
+      memory: "256Mi"
+      cpu: "500m"
+  initJob:
+    enabled: true
+    image: mongo:7.0

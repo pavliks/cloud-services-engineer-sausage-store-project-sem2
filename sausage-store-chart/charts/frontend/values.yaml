@@ -1,0 +1,27 @@
+global:
+  imageRegistry: ilyasachkov
+  imagePullPolicy: Always
+
+replicas: 1
+revisionHistoryLimit: 15
+strategy:
+  type: Recreate
+image:
+  repository: sausage-frontend
+  tag: latest
+service:
+  port: 80
+ingress:
+  host: front-ilyasachkov.2sem.students-projects.ru
+  tlsSecret: 2sem-students-projects-wildcard-secret
+  path: /
+  pathType: Prefix
+containerPort: 80
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
+nginxConf: nginx.conf

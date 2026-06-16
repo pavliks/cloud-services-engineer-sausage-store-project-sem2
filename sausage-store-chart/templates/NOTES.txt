@@ -1,0 +1,1 @@
+Релиз {{ .Release.Name }} установлен в namespace {{ .Release.Namespace }}.

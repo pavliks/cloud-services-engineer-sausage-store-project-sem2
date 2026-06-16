@@ -1,0 +1,35 @@
+global:
+  imageRegistry: ilyasachkov
+  imagePullPolicy: Always
+  mongodb:
+    host: mongodb
+    port: 27017
+    database: sausage-store
+    reportUsername: reports
+    reportPassword: reportspassword
+
+replicas: 1
+revisionHistoryLimit: 15
+strategy:
+  type: Recreate
+image:
+  repository: sausage-backend-report
+  tag: latest
+service:
+  port: 8080
+containerPort: 8080
+env:
+  port: "8080"
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
+hpa:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  cpu:
+    averageUtilization: 75

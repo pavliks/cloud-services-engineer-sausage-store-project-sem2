@@ -2,9 +2,9 @@
 #а затем из него берём собранный артефакт и кладём его в новый образ, чтобы оставить в нём меньше лишнего
 
 # build
-FROM maven:3.8.2-openjdk-16-slim as builder
+FROM maven:3.9.9-eclipse-temurin-17 AS builder
 # задаём переменную VERSION, которая будет использоваться для сборки проекта
-ARG VERSION=${VERSION}
+ARG VERSION=latest
 WORKDIR /usr/src/app
 COPY ./src ./src
 COPY *.xml ./
@@ -12,15 +12,15 @@ COPY *.xml ./
 RUN mvn package -Dversion.application=${VERSION}
 
 # release
-FROM openjdk:16-jdk-alpine
-ARG VERSION=${VERSION}
+FROM eclipse-temurin:17-jre
+ARG VERSION=latest
 WORKDIR /app
 # создаём пользователя jaruser
 RUN addgroup --system jaruser \
-    && adduser -S -s /bin/false -G jaruser jaruser -D -H \
-    && apk add --no-cache dumb-init==1.2.5-r0 \
-    && apk add --update curl \
-    && rm -rf /var/cache/apk/* \
+    && adduser --system --shell /bin/false --ingroup jaruser --no-create-home jaruser \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends dumb-init curl \
+    && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /logs/reports \
     && chown -R jaruser:jaruser /logs
 COPY --chown=jaruser:jaruser \

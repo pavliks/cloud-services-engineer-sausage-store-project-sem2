@@ -1,0 +1,67 @@
+global:
+  imageRegistry: ilyasachkov
+  imagePullPolicy: Always
+  postgresql:
+    host: postgresql
+    port: 5432
+    database: sausage-store
+    username: store
+    password: storepassword
+  mongodb:
+    host: mongodb
+    port: 27017
+    database: sausage-store
+    reportUsername: reports
+    reportPassword: reportspassword
+  vault:
+    enabled: false
+    name: sausage-store-vault
+    host: vault.example.local
+    scheme: http
+    kvEnabled: "true"
+    vaultToken: ""
+
+annotations:
+  path: /actuator/prometheus
+  port: "8080"
+  scrape: "true"
+env:
+  reportPath: /logs/reports
+  logPath: /logs
+service:
+  port: 8080
+revisionHistoryLimit: 15
+replicas: 1
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+image:
+  repository: sausage-backend
+  tag: latest
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "1"
+containerPort: 8080
+livenessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8080
+  initialDelaySeconds: 60
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 6
+vpa:
+  updatePolicy:
+    updateMode: "Off"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: backend
+        controlledResources:
+          - cpu
+          - memory
