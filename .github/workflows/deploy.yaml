@@ -15,7 +15,7 @@ env:
   VAULT_ENABLED: ${{ vars.VAULT_ENABLED || 'false' }}
   VAULT_HOST: ${{ secrets.VAULT_HOST }}
   VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
-  CHART_VERSION: 0.1.${{ github.run_number }}
+  CHART_VERSION: 0.2.${{ github.run_number }}
 
 jobs:
   build_and_push_to_docker_hub:
