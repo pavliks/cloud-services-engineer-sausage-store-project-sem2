@@ -115,4 +115,5 @@ jobs:
             --set backend-report.image.tag="${GITHUB_SHA}" \
             --set global.vault.enabled="${VAULT_ENABLED}" \
             --set global.vault.host="${VAULT_HOST}" \
-            --set global.vault.vaultToken="${VAULT_TOKEN}"
+            --set global.vault.vaultToken="${VAULT_TOKEN}" \
+            --history-max 3
