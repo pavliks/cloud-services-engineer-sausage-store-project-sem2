@@ -11,6 +11,8 @@ env:
   NEXUS_HELM_REPO_PASSWORD: ${{ secrets.NEXUS_HELM_REPO_PASSWORD }}
   SAUSAGE_STORE_NAMESPACE: ${{ secrets.SAUSAGE_STORE_NAMESPACE }}
   KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+  VAULT_ENABLED: ${{ vars.VAULT_ENABLED || 'false' }}
+  VAULT_HOST: ${{ secrets.VAULT_HOST }}
   VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
   CHART_VERSION: 0.1.${{ github.run_number }}
 
@@ -111,4 +113,6 @@ jobs:
             --set backend.image.tag="${GITHUB_SHA}" \
             --set frontend.image.tag="${GITHUB_SHA}" \
             --set backend-report.image.tag="${GITHUB_SHA}" \
+            --set global.vault.enabled="${VAULT_ENABLED}" \
+            --set global.vault.host="${VAULT_HOST}" \
             --set global.vault.vaultToken="${VAULT_TOKEN}"
