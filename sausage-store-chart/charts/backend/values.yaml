@@ -1,5 +1,5 @@
 global:
-  imageRegistry: ilyasachkov
+  imageRegistry: itmp9
   imagePullPolicy: Always
   postgresql:
     host: postgresql
