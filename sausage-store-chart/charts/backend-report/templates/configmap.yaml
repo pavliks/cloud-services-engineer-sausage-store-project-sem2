@@ -14,4 +14,4 @@ metadata:
   namespace: {{ .Release.Namespace }}
 type: Opaque
 stringData:
-  DB: "mongodb://{{ .Values.global.mongodb.reportUsername }}:{{ .Values.global.mongodb.reportPassword }}@{{ .Values.global.mongodb.host }}:{{ .Values.global.mongodb.port }}/{{ .Values.global.mongodb.database }}"
+  DB: "mongodb://{{ .Values.global.mongodb.reportUsername }}:{{ .Values.global.mongodb.reportPassword }}@{{ .Values.global.mongodb.host }}:{{ .Values.global.mongodb.port }}/{{ .Values.global.mongodb.database }}?authSource={{ .Values.global.mongodb.database }}&authMechanism=SCRAM-SHA-256"

@@ -23,5 +23,5 @@ resources:
     cpu: "100m"
   limits:
     memory: "256Mi"
-    cpu: "500m"
+    cpu: "250m"
 nginxConf: nginx.conf

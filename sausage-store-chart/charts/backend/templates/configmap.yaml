@@ -24,7 +24,7 @@ type: Opaque
 stringData:
   spring.datasource.username: {{ .Values.global.postgresql.username | quote }}
   spring.datasource.password: {{ .Values.global.postgresql.password | quote }}
-  spring.data.mongodb.uri: "mongodb://{{ .Values.global.mongodb.reportUsername }}:{{ .Values.global.mongodb.reportPassword }}@{{ .Values.global.mongodb.host }}:{{ .Values.global.mongodb.port }}/{{ .Values.global.mongodb.database }}"
+  spring.data.mongodb.uri: "mongodb://{{ .Values.global.mongodb.reportUsername }}:{{ .Values.global.mongodb.reportPassword }}@{{ .Values.global.mongodb.host }}:{{ .Values.global.mongodb.port }}/{{ .Values.global.mongodb.database }}?authSource={{ .Values.global.mongodb.database }}&authMechanism=SCRAM-SHA-256"
 {{- end }}
 {{- if .Values.global.vault.enabled }}
 ---

@@ -86,6 +86,8 @@ spec:
           envFrom:
             - secretRef:
                 name: mongodb-secret
+          resources:
+{{ toYaml .Values.mongodb.initJob.resources | indent 12 }}
           command:
             - /bin/sh
             - -c

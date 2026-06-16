@@ -44,7 +44,7 @@ frontend:
       cpu: "100m"
     limits:
       memory: "256Mi"
-      cpu: "500m"
+      cpu: "250m"
   nginxConf: nginx.conf
 
 backend:
@@ -62,8 +62,8 @@ backend:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      maxSurge: 0
+      maxUnavailable: 1
   image:
     repository: sausage-backend
     tag: latest
@@ -73,7 +73,7 @@ backend:
       cpu: "100m"
     limits:
       memory: "512Mi"
-      cpu: "1"
+      cpu: "700m"
   containerPort: 8080
   livenessProbe:
     httpGet:
@@ -112,7 +112,7 @@ backend-report:
       cpu: "100m"
     limits:
       memory: "256Mi"
-      cpu: "500m"
+      cpu: "250m"
   hpa:
     enabled: true
     minReplicas: 1
@@ -131,7 +131,7 @@ infra:
         cpu: "100m"
       limits:
         memory: "512Mi"
-        cpu: "500m"
+        cpu: "300m"
   mongodb:
     image: mongo:7.0
     containerPort: 27017
@@ -144,7 +144,14 @@ infra:
         cpu: "50m"
       limits:
         memory: "256Mi"
-        cpu: "500m"
+        cpu: "300m"
     initJob:
       enabled: true
       image: mongo:7.0
+      resources:
+        requests:
+          memory: "32Mi"
+          cpu: "25m"
+        limits:
+          memory: "384Mi"
+          cpu: "50m"
