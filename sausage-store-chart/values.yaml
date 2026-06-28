@@ -42,6 +42,7 @@ backend:
   secrets:
     postgresUser: store
     postgresPassword: storepassword
+    mongodbUri: mongodb://reports:reportspassword@mongodb:27017/sausage-store
   service:
     port: 8080
   revisionHistoryLimit: 15
