@@ -72,6 +72,8 @@ infra:
   postgresql:
   ### Опишите необходимые переменные для развертывания PostgresQL в кластере Kubernetes
   mongodb:
+    image: mongo:7.0
+    containerPort: 27017
     env:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
