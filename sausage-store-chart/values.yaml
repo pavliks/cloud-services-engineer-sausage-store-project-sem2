@@ -84,4 +84,5 @@ infra:
       limits:
         memory: "256Mi"
         cpu: "250m"
+    storage: 1Gi
   
