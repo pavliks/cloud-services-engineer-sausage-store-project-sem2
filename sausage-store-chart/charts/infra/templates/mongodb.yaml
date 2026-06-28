@@ -35,7 +35,7 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 1Gi
+          storage: {{ .Values.mongodb.storage }}
 ---
 apiVersion: v1
 kind: Service
