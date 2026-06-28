@@ -35,12 +35,13 @@ backend:
     path: /actuator/prometheus
     port: "8080"
     scrape: "true"
-  env:
+  config:
     postgresUri: jdbc:postgresql://postgresql:5432/sausage-store
-    postgresUser: store
-    postgresPassword: storepassword
     reportPath: /logs/reports
     logPath: /logs
+  secrets:
+    postgresUser: store
+    postgresPassword: storepassword
   service:
     port: 8080
   revisionHistoryLimit: 15
