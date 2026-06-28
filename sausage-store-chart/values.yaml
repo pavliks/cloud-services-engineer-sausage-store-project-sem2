@@ -18,6 +18,7 @@ frontend:
     host: front-shavrov.2sem.students-projects.ru # Корректный домен будет указан в задании
     path: /
     pathType: Prefix
+    tlsSecret: 2sem-students-projects-wildcard-secret
   containerPort: 80
   image: YOUR_DOCKERHUB/sausage-frontend:latest
   resources:
