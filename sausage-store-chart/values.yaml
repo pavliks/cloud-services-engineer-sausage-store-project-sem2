@@ -21,7 +21,7 @@ frontend:
     pathType: Prefix
     tlsSecret: 2sem-students-projects-wildcard-secret
   containerPort: 80
-  image: ${{ secrets.DOCKER_USER }}/sausage-frontend:latest
+  image: YOUR_DOCKERHUB/sausage-frontend:latest
   resources:
     requests:
       memory: "128Mi"
@@ -54,7 +54,7 @@ backend:
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 1
-  image: ${{ secrets.DOCKER_USER }}/sausage-backend:latest
+  image: YOUR_DOCKERHUB/sausage-backend:latest
   imagePullPolicy: Always
   resources:
     requests:
@@ -93,7 +93,7 @@ backend-report:
 ### Опишите значения для backend-report
   replicas: 1
   revisionHistoryLimit: 15
-  image: ${{ secrets.DOCKER_USER }}/sausage-backend-report:latest
+  image: YOUR_DOCKERHUB/sausage-backend-report:latest
   containerPort: 8080
   service:
     port: 8080
