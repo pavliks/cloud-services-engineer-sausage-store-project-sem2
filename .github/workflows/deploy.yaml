@@ -117,5 +117,5 @@ jobs:
               --version "${CHART_VERSION}" \
               --namespace "${SAUSAGE_STORE_NAMESPACE}" \
               --atomic \
-              --timeout 5m
+              --timeout 15m
               
