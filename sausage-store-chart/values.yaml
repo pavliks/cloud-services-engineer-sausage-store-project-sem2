@@ -27,8 +27,8 @@ frontend:
       memory: "128Mi"
       cpu: "100m"
     limits:
-      memory: "128Mi"
-      cpu: "300m"
+      memory: "768Mi"
+      cpu: "500m"
   nginxConf: nginx.conf
 
 backend:
