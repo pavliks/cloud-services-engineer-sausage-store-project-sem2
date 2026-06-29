@@ -115,6 +115,10 @@ backend-report:
 ### Приложение использует переменную PORT - порт, на котором оно запустится и DB - Uri-подключение к mongodb. 
 ### DB положите в Secret, PORT в ConfigMap
 ### Опишите HPA для backend-report
+  hpa:
+    minReplicas: 1
+    maxReplicas: 5
+    averageUtilization: 75
 
 infra:
   postgresql:
