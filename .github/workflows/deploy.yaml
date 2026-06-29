@@ -13,6 +13,7 @@ env:
   KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
   VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  CHART_VERSION: 0.1.${{ github.run_number }}
 
 jobs:
   # Сборка и пуш образов в докерхаб:
@@ -79,13 +80,13 @@ jobs:
           with:
             version: v3.18.4
         - name: Package Helm chart
-          run: helm package ./sausage-store-chart --destination ./.helm-package
+          run: helm package ./sausage-store-chart --version "${CHART_VERSION}"
         - name: Push Helm chart to Nexus
           run: |
-            CHART_TGZ=$(ls ./.helm-package/sausage-store-*.tgz)
-            echo "Uploading $CHART_TGZ to $NEXUS_HELM_REPO"
+            CHART_PACKAGE="sausage-store-${CHART_VERSION}.tgz"
+            echo "Uploading ${CHART_PACKAGE} to ${NEXUS_HELM_REPO}"
             curl -sSf -u "${NEXUS_HELM_REPO_USER}:${NEXUS_HELM_REPO_PASSWORD}" \
-              "${NEXUS_HELM_REPO}" --upload-file "${CHART_TGZ}"
+              "${NEXUS_HELM_REPO}/${CHART_PACKAGE}" --upload-file "${CHART_PACKAGE}"
 
   # Деплоим приложения в кластер Kubernetes с помощью helm-чарт
   deploy_helm_chart_to_kubernetes:
@@ -113,6 +114,7 @@ jobs:
         - name: Deploy with Helm
           run: |
             helm upgrade --install sausage-store nexus/sausage-store \
+              --version "${CHART_VERSION}" \
               --namespace "${SAUSAGE_STORE_NAMESPACE}" \
               --create-namespace \
               --atomic \
