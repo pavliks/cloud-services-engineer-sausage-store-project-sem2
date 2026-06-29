@@ -69,6 +69,7 @@ backend:
   ### Опишите VPA для бэкенда
 
 backend-report:
+### Опишите значения для backend-report
   replicas: 1
   revisionHistoryLimit: 15
   image: YOUR_DOCKERHUB/sausage-backend-report:latest
@@ -95,8 +96,9 @@ backend-report:
     periodSeconds: 30
     timeoutSeconds: 2
     failureThreshold: 6
-### Опишите значения для backend-report
 ### Приложение должно использовать стратегию Recreate
+  strategy:
+    type: Recreate
 ### Приложение использует переменную PORT - порт, на котором оно запустится и DB - Uri-подключение к mongodb. 
 ### DB положите в Secret, PORT в ConfigMap
 ### Опишите HPA для backend-report
