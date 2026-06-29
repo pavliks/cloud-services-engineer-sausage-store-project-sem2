@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
 data:
-  postgres_uri: {{ .Values.env.postgresUri }}
-  report_path: {{ .Values.env.reportPath }}
-  log_path: {{ .Values.env.logPath }}
+  postgres_uri: {{ .Values.config.postgresUri }}
+  report_path: {{ .Values.config.reportPath }}
+  log_path: {{ .Values.config.logPath }}
   
