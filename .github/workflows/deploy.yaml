@@ -116,7 +116,10 @@ jobs:
             helm upgrade --install sausage-store nexus/sausage-store \
               --version "${CHART_VERSION}" \
               --namespace "${SAUSAGE_STORE_NAMESPACE}" \
+              --set backend.image=${DOCKER_USER}/sausage-backend:${GITHUB_SHA} \
+              --set frontend.image=${DOCKER_USER}/sausage-frontend:${GITHUB_SHA} \
+              --set "backend-report.image=${DOCKER_USER}/sausage-backend-report:${GITHUB_SHA}" \
               --atomic \
               --debug \
-              --timeout 20m
+              --timeout 10m
               
