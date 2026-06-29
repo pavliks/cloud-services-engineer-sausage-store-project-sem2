@@ -69,3 +69,17 @@ metadata:
 data:
   MONGO_INITDB_ROOT_USERNAME: {{ .Values.mongodb.env.MONGO_INITDB_ROOT_USERNAME }}
   MONGO_INITDB_ROOT_PASSWORD: {{ .Values.mongodb.env.MONGO_INITDB_ROOT_PASSWORD }}
+{{- if .Values.mongodb.initJob.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongodb-initdb
+data:
+  init-reports.js: |
+    db.getSiblingDB({{ .Values.mongodb.initJob.database | quote }}).createUser({
+      user: {{ .Values.mongodb.initJob.username | quote }},
+      pwd: {{ .Values.mongodb.initJob.password | quote }},
+      roles: [{ role: "readWrite", db: {{ .Values.mongodb.initJob.database | quote }} }]
+    });
+{{- end }}
