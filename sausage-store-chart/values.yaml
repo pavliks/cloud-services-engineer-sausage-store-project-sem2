@@ -136,7 +136,7 @@ infra:
       POSTGRES_DB: sausage-store
       POSTGRES_USER: store
       POSTGRES_PASSWORD: storepassword
-    storage: 2Gi
+    storage: 256Mi
     resources:
       requests:
         memory: "256Mi"
@@ -157,5 +157,9 @@ infra:
       limits:
         memory: "256Mi"
         cpu: "250m"
-    storage: 1Gi
-  
+    storage: 256Mi
+    initJob:
+      enabled: true
+      database: sausage-store
+      username: reports
+      password: reportspassword
