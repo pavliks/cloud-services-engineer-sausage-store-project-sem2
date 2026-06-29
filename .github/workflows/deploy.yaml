@@ -109,7 +109,6 @@ jobs:
           helm upgrade --install sausage-store nexus/sausage-store \
             --version "${CHART_VERSION}" \
             --namespace "${SAUSAGE_STORE_NAMESPACE}" \
-            --create-namespace \
             --set global.imageRegistry="${{ secrets.DOCKER_USER }}" \
             --set backend.image.tag="${GITHUB_SHA}" \
             --set frontend.image.tag="${GITHUB_SHA}" \
