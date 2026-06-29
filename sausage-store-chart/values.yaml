@@ -67,6 +67,19 @@ backend:
   ### Опишите LivenessProbe для бэкенда
   vpa:
   ### Опишите VPA для бэкенда
+    updatePolicy:
+      updateMode: "Off"
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          minAllowed:
+            cpu: 25m
+            memory: 128Mi
+          maxAllowed:
+            cpu: 1
+            memory: 768Mi
+          controlledResources: ["cpu", "memory"]
+          controlledValues: RequestsAndLimits
 
 backend-report:
 ### Опишите значения для backend-report
