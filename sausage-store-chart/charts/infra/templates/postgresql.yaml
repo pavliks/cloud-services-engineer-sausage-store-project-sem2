@@ -21,6 +21,8 @@ spec:
         envFrom:
           - configMapRef:
               name: postgresql-conf
+          - secretRef:
+              name: postgresql-secret
         ports:
         - containerPort: {{ .Values.postgresql.containerPort }}
         resources:
