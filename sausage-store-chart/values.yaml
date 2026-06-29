@@ -153,10 +153,10 @@ infra:
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
     resources:
       requests:
-        memory: "128Mi"
+        memory: "256Mi"
         cpu: "50m"
       limits:
-        memory: "256Mi"
+        memory: "512Mi"
         cpu: "250m"
     storage: 768Mi
     initJob:
