@@ -1,0 +1,60 @@
+{{- if .Values.mongodb.initJob.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongodb-init
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 10
+  template:
+    metadata:
+      name: mongodb-init
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mongodb-init
+          image: {{ .Values.mongodb.image }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -e
+              echo "Waiting for MongoDB to be ready...";
+              until mongosh "mongodb://${ROOT_USER}:${ROOT_PASSWORD}@mongodb:27017/admin" --quiet --eval "db.adminCommand('ping')" >/dev/null 2>&1; do
+                echo "mongodb not ready yet, retrying in 5s..."; sleep 5;
+              done
+              echo "MongoDB is up, ensuring user '${APP_USER}' in db '${APP_DB}'";
+              mongosh "mongodb://${ROOT_USER}:${ROOT_PASSWORD}@mongodb:27017/admin" --quiet --eval '
+                const db = db.getSiblingDB(process.env.APP_DB);
+                const exists = db.getUser(process.env.APP_USER);
+                if (exists) {
+                  print("user already exists, updating password");
+                  db.updateUser(process.env.APP_USER, { pwd: process.env.APP_PASSWORD, roles: [{ role: "readWrite", db: process.env.APP_DB }] });
+                } else {
+                  print("creating user");
+                  db.createUser({ user: process.env.APP_USER, pwd: process.env.APP_PASSWORD, roles: [{ role: "readWrite", db: process.env.APP_DB }] });
+                }
+              '
+              echo "Done.";
+          env:
+            - name: ROOT_USER
+              value: {{ .Values.mongodb.env.MONGO_INITDB_ROOT_USERNAME | quote }}
+            - name: ROOT_PASSWORD
+              value: {{ .Values.mongodb.env.MONGO_INITDB_ROOT_PASSWORD | quote }}
+            - name: APP_DB
+              value: {{ .Values.mongodb.initJob.database | quote }}
+            - name: APP_USER
+              value: {{ .Values.mongodb.initJob.username | quote }}
+            - name: APP_PASSWORD
+              value: {{ .Values.mongodb.initJob.password | quote }}
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+{{- end }}
