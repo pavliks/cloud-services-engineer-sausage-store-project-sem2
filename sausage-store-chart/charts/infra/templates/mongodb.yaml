@@ -28,6 +28,17 @@ spec:
         volumeMounts:
         - name: mongodb-data
           mountPath: /data/db
+{{- if .Values.mongodb.initJob.enabled }}
+        - name: mongodb-initdb
+          mountPath: /docker-entrypoint-initdb.d
+          readOnly: true
+{{- end }}
+{{- if .Values.mongodb.initJob.enabled }}
+      volumes:
+      - name: mongodb-initdb
+        configMap:
+          name: mongodb-initdb
+{{- end }}
   volumeClaimTemplates:
   - metadata:
       name: mongodb-data
