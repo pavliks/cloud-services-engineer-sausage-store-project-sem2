@@ -71,6 +71,20 @@ jobs:
 
       steps:
       #### Опишите необходимые шаги
+        - name: Check out the repo
+          uses: actions/checkout@v7.0.0
+        - name: Install Helm
+          uses: azure/setup-helm@v5
+          with:
+            version: v3.18.4
+        - name: Package Helm chart
+          run: helm package ./sausage-store-chart --destination ./.helm-package
+        - name: Push Helm chart to Nexus
+          run: |
+            CHART_TGZ=$(ls ./.helm-package/sausage-store-*.tgz)
+            echo "Uploading $CHART_TGZ to $NEXUS_HELM_REPO"
+            curl -sSf -u "${NEXUS_HELM_REPO_USER}:${NEXUS_HELM_REPO_PASSWORD}" \
+              "${NEXUS_HELM_REPO}" --upload-file "${CHART_TGZ}"
 
   # Деплоим приложения в кластер Kubernetes с помощью helm-чарт
   deploy_helm_chart_to_kubernetes:
